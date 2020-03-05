@@ -1,0 +1,24 @@
+{
+  "name": "react-task-manager-project",
+  "version": "1.0.0",
+  "description": "A React application...",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --public-url='./'"
+  },
+  "author": "Ebonie Butler",
+  "license": "ISC",
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bulma": "^0.8.0",
+    "parcel": "^1.12.4",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
