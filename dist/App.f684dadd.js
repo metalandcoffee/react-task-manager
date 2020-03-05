@@ -28406,6 +28406,7 @@ class App extends _react.Component {
       list: [`Go to the store`, `Wash the dishes`, `Learn some code`]
     };
     this.addItem = this.addItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
   }
 
   addItem(e) {
@@ -28428,6 +28429,15 @@ class App extends _react.Component {
     }
   }
 
+  removeItem(item) {
+    let list = this.state.list; // Filter list with tasks not matching given item.
+
+    list = list.filter(task => task !== item);
+    this.setState({
+      list
+    });
+  }
+
   render() {
     return _react.default.createElement("div", {
       className: "content"
@@ -28435,9 +28445,10 @@ class App extends _react.Component {
       className: "container"
     }, _react.default.createElement("section", {
       className: "section"
-    }, _react.default.createElement("ul", null, this.state.list.map(item => _react.default.createElement("li", {
-      key: item
-    }, item)))), _react.default.createElement("hr", null), _react.default.createElement("section", {
+    }, _react.default.createElement(List, {
+      list: this.state.list,
+      removeItem: this.removeItem
+    })), _react.default.createElement("hr", null), _react.default.createElement("section", {
       className: "section"
     }, _react.default.createElement("form", {
       className: "form",
@@ -28451,6 +28462,63 @@ class App extends _react.Component {
       className: "button is-info",
       onClick: this.addItem
     }, "Add Item")))));
+  }
+
+}
+
+class List extends _react.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filtered: []
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      filtered: this.props.list
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      filtered: nextProps.list
+    });
+  }
+
+  handleChange(e) {
+    // Get current list.
+    let list = this.props.list; // If the search bar isn't empty...
+
+    if (e.target.value !== ``) {
+      // Filter list based on search term.
+      list = list.filter(item => {
+        // Change current item and search term to lowercase.
+        const lc = item.toLowerCase();
+        const filter = e.target.value.toLowerCase(); // Check if current item include search term.
+
+        return lc.includes(filter);
+      });
+    }
+
+    this.setState({
+      filtered: list
+    });
+  }
+
+  render() {
+    return _react.default.createElement("div", null, _react.default.createElement("input", {
+      type: "text",
+      className: "input",
+      onChange: this.handleChange,
+      placeholder: "Search..."
+    }), _react.default.createElement("ul", null, this.state.filtered.map(item => _react.default.createElement("li", {
+      key: item
+    }, item, " \xA0", _react.default.createElement("span", {
+      className: "delete",
+      onClick: () => this.props.removeItem(item)
+    })))));
   }
 
 }
@@ -28484,7 +28552,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51883" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51421" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
